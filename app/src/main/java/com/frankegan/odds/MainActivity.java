@@ -78,14 +78,22 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.numberPicker:
+                isCheckedNumberPicker = !item.isChecked();
+                item.setChecked(isCheckedNumberPicker);
+                return true;
+            case R.id.textField:
+                isCheckedTextField = !item.isChecked();
+                item.setChecked(isCheckedTextField);
+                return true;
+            //noinspection SimplifiableIfStatement
+            //case R.id.action_settings:
+            //    return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
     public int getHundreds() {
@@ -99,4 +107,18 @@ public class MainActivity extends AppCompatActivity {
     public int getOnes(){
         return ones.getValue();
     }
+
+    //Checkable Menu
+    private boolean isCheckedNumberPicker = false;
+    private boolean isCheckedTextField = false;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem checkable = menu.findItem(R.id.textField);
+        checkable.setChecked(isCheckedTextField);
+        checkable = menu.findItem(R.id.numberPicker);
+        checkable.setChecked(isCheckedNumberPicker);
+        return true;
+    }
+
 }
