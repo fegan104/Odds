@@ -6,6 +6,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,28 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         preferences = getSharedPreferences(PREFS_NAME, 0);
+
+        editText = (EditText) findViewById(R.id.editText);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    int newVal = Integer.parseInt(s.toString());
+                    odds = newVal;
+                    setPickers(newVal);
+                }
+            }
+        });
 
         hundreds = (NumberPicker) findViewById(R.id.picker_hundreds);
         tens = (NumberPicker) findViewById(R.id.picker_tens);
@@ -85,24 +109,43 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.numberPicker:
-                item.setChecked(true);
-
-                return true;
             case R.id.textField:
                 item.setChecked(true);
+                editText.setVisibility(View.VISIBLE);
+
                 hundreds.setVisibility(View.GONE);
                 tens.setVisibility(View.GONE);
                 ones.setVisibility(View.GONE);
                 return true;
+
+            case R.id.numberPicker:
+                item.setChecked(true);
+                hundreds.setVisibility(View.VISIBLE);
+                tens.setVisibility(View.VISIBLE);
+                ones.setVisibility(View.VISIBLE);
+
+                editText.setVisibility(View.GONE);
+                return true;
+
             case R.id.show_both:
                 item.setChecked(true);
+                editText.setVisibility(View.VISIBLE);
+                hundreds.setVisibility(View.VISIBLE);
+                tens.setVisibility(View.VISIBLE);
+                ones.setVisibility(View.VISIBLE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
     }
+
+    public void setPickers(int newVal){
+        hundreds.setValue(newVal / 100);
+        tens.setValue((newVal - (newVal / 100)) / 10);
+        ones.setValue(newVal - ((newVal - (newVal / 100)) / 10));
+    }
+
 
     public int getHundreds() {
         return hundreds.getValue() * 100;
