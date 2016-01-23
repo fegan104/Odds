@@ -5,13 +5,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 
 public class MainActivity extends AppCompatActivity {
     NumberPicker hundreds, tens, ones;
+    EditText editText;
     private static Integer odds = 0;
 
     @Override
@@ -21,7 +25,27 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        editText = (EditText) findViewById(R.id.editText);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    int newVal = Integer.parseInt(s.toString());
+                    odds = newVal;
+                    setPickers(newVal);
+                }
+            }
+        });
 
         hundreds = (NumberPicker) findViewById(R.id.picker_hundreds);
         tens = (NumberPicker) findViewById(R.id.picker_tens);
@@ -88,15 +112,21 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void setPickers(int newVal){
+        hundreds.setValue(newVal / 100);
+        tens.setValue((newVal - (newVal / 100)) / 10);
+        ones.setValue(newVal - ((newVal - (newVal / 100)) / 10));
+    }
+
     public int getHundreds() {
         return hundreds.getValue() * 100;
     }
 
-    public int getTens(){
+    public int getTens() {
         return tens.getValue() * 10;
     }
 
-    public int getOnes(){
+    public int getOnes() {
         return ones.getValue();
     }
 }
