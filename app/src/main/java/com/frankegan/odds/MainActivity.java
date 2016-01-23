@@ -1,5 +1,6 @@
 package com.frankegan.odds;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,11 +9,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 
 public class MainActivity extends AppCompatActivity {
     NumberPicker hundreds, tens, ones;
+    EditText editText;
     private static Integer odds = 0;
+    private  static String PREFS_NAME = "DISPLAY_CHECKS";
+    private static String SHOW_PICKER = "SHOW_PICKER";
+    private static String SHOW_EDITTEXT = "SHOW_EDITTEXT";
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        preferences = getSharedPreferences(PREFS_NAME, 0);
 
         hundreds = (NumberPicker) findViewById(R.id.picker_hundreds);
         tens = (NumberPicker) findViewById(R.id.picker_tens);
@@ -80,16 +86,18 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.numberPicker:
-                isCheckedNumberPicker = !item.isChecked();
-                item.setChecked(isCheckedNumberPicker);
+                item.setChecked(true);
+
                 return true;
             case R.id.textField:
-                isCheckedTextField = !item.isChecked();
-                item.setChecked(isCheckedTextField);
+                item.setChecked(true);
+                hundreds.setVisibility(View.GONE);
+                tens.setVisibility(View.GONE);
+                ones.setVisibility(View.GONE);
                 return true;
-            //noinspection SimplifiableIfStatement
-            //case R.id.action_settings:
-            //    return true;
+            case R.id.show_both:
+                item.setChecked(true);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -106,19 +114,6 @@ public class MainActivity extends AppCompatActivity {
 
     public int getOnes(){
         return ones.getValue();
-    }
-
-    //Checkable Menu
-    private boolean isCheckedNumberPicker = false;
-    private boolean isCheckedTextField = false;
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem checkable = menu.findItem(R.id.textField);
-        checkable.setChecked(isCheckedTextField);
-        checkable = menu.findItem(R.id.numberPicker);
-        checkable.setChecked(isCheckedNumberPicker);
-        return true;
     }
 
 }
