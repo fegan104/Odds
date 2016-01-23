@@ -1,55 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_main"
     tools:context="com.frankegan.odds.MainActivity">
 
     <TextView
-        android:text="What are the odds?"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:textSize="38sp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="What are the odds?"
+        android:textSize="38sp" />
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editText"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp" />
+        android:layout_marginTop="64dp"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="3"
+        android:textColor="@color/text_black"
+        android:textSize="38sp"
+        android:textAlignment="center"
+        android:layout_alignStart="@+id/picker_hundreds"
+        android:layout_alignEnd="@+id/picker_ones" />
 
     <NumberPicker
+        android:id="@+id/picker_hundreds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/picker_hundreds"
         android:layout_below="@+id/editText"
         android:layout_toStartOf="@+id/picker_tens" />
 
     <NumberPicker
+        android:id="@+id/picker_tens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/picker_tens"
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true" />
 
     <NumberPicker
+        android:id="@+id/picker_ones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/picker_ones"
         android:layout_alignTop="@+id/picker_tens"
         android:layout_toEndOf="@+id/picker_tens" />
 
