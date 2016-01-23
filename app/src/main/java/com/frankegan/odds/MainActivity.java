@@ -114,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void setPickers(int newVal){
         hundreds.setValue(newVal / 100);
-        tens.setValue((newVal - (newVal / 100)) / 10);
-        ones.setValue(newVal - ((newVal - (newVal / 100)) / 10));
+        tens.setValue((newVal - 100*(newVal / 100)) / 10);
+        ones.setValue((newVal - 10 * (newVal/10)) / 10);
     }
 
     public int getHundreds() {
